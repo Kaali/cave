@@ -1,0 +1,23 @@
+cave is just a small exercise I did in Clojure, which generates caves by
+blatantly ripping
+http://roguebasin.roguelikedevelopment.org/index.php?title=Cellular_Automata_Method_for_Generating_Random_Cave-Like_Levels
+
+h2. Usage
+
+Load the code, and for example, run:
+
+  (print-cave (generate-cave 20 20
+                             (struct generation-param 6 1 2)
+                             (struct generation-param 5 1 3)))
+
+h2. License
+
+Copyright (C) 2010 Väinö Järvelä
+
+The use and distribution terms for this software are covered by the
+Eclipse Public License 1.0 (http://opensource.org/licenses/eclipse-1.0.php)
+see COPYING file.
+
+By using this software in any fashion, you are agreeing to be bound by the
+terms of this license.  You must not remove this notice, or any other, from
+this software.
