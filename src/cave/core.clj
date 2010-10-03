@@ -40,7 +40,7 @@
       (< x 0) (>= x (:cols c))))
 
 (defn around [c x y r]
-  (letfn [(it [point] (map #(+ point %) (range (- r) (inc r))))]
+  (letfn [(it [point] (range (- point r) (+ 1 point r)))]
     (for [xx (it x)
           yy (it y)
           :when (not (out-of-cave c xx yy))]
