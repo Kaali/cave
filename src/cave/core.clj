@@ -66,8 +66,7 @@
     (struct cave rows cols data)))
 
 (defn evolve [c param]
-  (let [params (repeat (:reps param) param)]
-    (reduce (fn [c param] (generation c param)) c params)))
+  (nth (iterate #(generation % param) c) (dec (:reps param))))
 
 (defn generate-cave [rows cols & params]
   (let [c (init-cave rows cols)]
