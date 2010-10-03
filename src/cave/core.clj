@@ -30,8 +30,8 @@
 (defn print-point [p] (print (if (= p :wall) \# \.)))
 
 (defn print-cave [c]
-  (doseq [y (range (:rows c))]
-    (doseq [x (range (:cols c))]
+  (dotimes [y (:rows c)]
+    (dotimes [x (:cols c)]
       (print-point (get-point c x y)))
     (println)))
 
@@ -51,18 +51,19 @@
           (adj [r] (count-walls (around c x y r)))]
     [(adj 1) (adj 2)]))
 
-(defn generation [c params]
-  (let [at-boundary (at-boundary-fn (:rows c) (:cols c))
-        data (for [y (range (:rows c))
-                   x (range (:cols c))]
+(defn generation [c {:keys [r1-cutoff r2-cutoff]}]
+  (let [{:keys [rows cols]} c
+        at-boundary (at-boundary-fn rows cols)
+        data (for [y (range rows)
+                   x (range cols)]
                (if (at-boundary x y)
                  :wall
                  (let [[adj-r1 adj-r2] (adjacency c x y)]
-                   (if (or (>= adj-r1 (:r1-cutoff params))
-                           (<= adj-r2 (:r2-cutoff params)))
+                   (if (or (>= adj-r1 r1-cutoff)
+                           (<= adj-r2 r2-cutoff))
                      :wall
                      :floor))))]
-    (struct cave (:rows c) (:cols c) data)))
+    (struct cave rows cols data)))
 
 (defn evolve [c param]
   (let [params (repeat (:reps param) param)]
