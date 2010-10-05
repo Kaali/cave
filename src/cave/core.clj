@@ -2,9 +2,9 @@
 
 (def *fill-probability* 0.4)
 
-(defstruct generation-param :r1-cutoff :r2-cutoff :reps)
+(defrecord GenParam [r1-cutoff r2-cutoff reps])
 
-(defstruct cave :rows :cols :data)
+(defrecord Cave [rows cols data])
 
 (defn get-point [c x y]
   (nth (:data c) (+ x (* y (:cols c)))))
@@ -25,7 +25,7 @@
                (if (at-boundary x y)
                  :wall
                  (rand-point)))]
-    (struct cave rows cols data)))
+    (Cave. rows cols data)))
 
 (defn print-point [p] (print (if (= p :wall) \# \.)))
 
@@ -63,7 +63,7 @@
                            (<= adj-r2 r2-cutoff))
                      :wall
                      :floor))))]
-    (struct cave rows cols data)))
+    (Cave. rows cols data)))
 
 (defn evolve [c param]
   (nth (iterate #(generation % param) c) (dec (:reps param))))
@@ -74,5 +74,5 @@
 
 (comment
   (print-cave (generate-cave 20 20
-                             (struct generation-param 6 1 2)
-                             (struct generation-param 5 1 3))))
+                             (GenParam. 6 1 2)
+                             (GenParam. 5 1 3))))
